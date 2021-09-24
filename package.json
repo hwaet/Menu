@@ -1,0 +1,17 @@
+{
+    "name": "com.hwaet.Menu",
+    "displayName": "Menu",
+	"author": {
+		"name": "Hwaet",
+		"email": "dev@hwaetgames.com",
+		"url": "http://www.hwaetgames.com"
+		},
+    "version": "0.0.1",
+    "unity": "2020.0",
+    "description": "",
+    "keywords": [
+        "unity",
+		"editor"
+    ],
+    "category": "Unity"
+}

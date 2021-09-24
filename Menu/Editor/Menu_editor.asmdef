@@ -1,0 +1,6 @@
+﻿{
+	"name": "package_editor",
+	"includePlatforms": [
+        "Editor"
+    ],
+}
