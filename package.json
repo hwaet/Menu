@@ -1,5 +1,5 @@
 {
-    "name": "com.hwaet.Menu",
+    "name": "com.hwaet.menu",
     "displayName": "Menu",
 	"author": {
 		"name": "Hwaet",
@@ -7,11 +7,12 @@
 		"url": "http://www.hwaetgames.com"
 		},
     "version": "0.0.1",
-    "unity": "2020.0",
-    "description": "",
+    "unity": "2020.3",
+    "description": "A Menu System for quick start projects",
     "keywords": [
         "unity",
-		"editor"
+		"editor",
+        "menu"
     ],
     "category": "Unity"
 }

@@ -101,6 +101,8 @@ public class Menu : MonoBehaviour
 
 	public void switchToMenu(Menu menu)
 	{
+		Debug.Assert(menu != null, "Menu switch function must have a target menu to switch to.");
+
 		this.DisableAll();
 		menu.EnableAll();
 	}
