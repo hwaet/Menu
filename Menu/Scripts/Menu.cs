@@ -13,6 +13,10 @@ public class Menu : MonoBehaviour
 
 	public GameObject lastSelectedButton;
 
+	public delegate void MenuTriggerQuit();
+	public static event MenuTriggerQuit OnMenuCallExit = delegate {};
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -101,9 +105,18 @@ public class Menu : MonoBehaviour
 
 	public void switchToMenu(Menu menu)
 	{
-		Debug.Assert(menu != null, "Menu switch function must have a target menu to switch to.");
+		//Debug.Assert(menu != null, "Menu switch function must have a target menu to switch to.");
+		//Debug.Assert(menu.GetType() != typeof(Menu), "Menu switch function must target a 'Menu' object.");
+		if ( (menu != null) && (menu.GetType() == typeof(Menu)) )
+		{
+			this.DisableAll();
+			menu.EnableAll();
+		}
+		
+	}
 
-		this.DisableAll();
-		menu.EnableAll();
+	public void MenuCallExitDelegate()
+	{
+		if (Menu.OnMenuCallExit != null) {	OnMenuCallExit(); }
 	}
 }
