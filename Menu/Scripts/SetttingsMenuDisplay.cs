@@ -57,41 +57,94 @@ public class SetttingsMenuDisplay : MonoBehaviour
 			//newButton.GetComponentInChildren<Text>().text = fieldInfo.GetValue(settingsObj).ToString();
 			//newButton.gameObject.SetActive(true);
 
-			if (fieldInfo.FieldType == typeof(float)) {
-				GameObject newGO = GameObject.Instantiate(floatInputPrefab, content);
-				Text[] textFields = newGO.GetComponentsInChildren<Text>();
-
-				foreach (Text textField in textFields)
-				{
-					if (textField.gameObject.name == "Label") textField.text = fieldInfo.Name;
-				}
-
-				InputField inputField = newGO.GetComponentInChildren<InputField>();
-				inputField.ActivateInputField();
-				inputField.text = fieldInfo.GetValue(settingsObj).ToString();
-
-				inputField.onEndEdit.AddListener((string test) =>
-				   {
-					   Debug.Log(test);
-					   settingsObj.GetType().GetField(fieldInfo.Name).SetValue(settingsObj, float.Parse(test));
-				   });
-
-				newGO.gameObject.SetActive(true);
+			if (fieldInfo.FieldType == typeof(float))
+			{
+				CreateFloatField(content, fieldInfo);
 			}
 
 			if (fieldInfo.FieldType == typeof(int))
 			{
-
+				CreateIntField(content, fieldInfo);
 			}
 
 			if (fieldInfo.FieldType == typeof(string))
 			{
-
+				CreateStringField(content, fieldInfo);
 			}
 		}
 	}
 
+	private void CreateFloatField(Transform content, FieldInfo fieldInfo)
+	{
+		GameObject newGO = GameObject.Instantiate(floatInputPrefab, content);
+		SetLabelTextValue(newGO, fieldInfo.Name);
 
+		InputField inputField = newGO.GetComponentInChildren<InputField>();
+		inputField.ActivateInputField();
+		inputField.characterValidation = InputField.CharacterValidation.Decimal;
+		inputField.text = fieldInfo.GetValue(settingsObj).ToString();
+
+		inputField.onEndEdit.AddListener((string test) =>
+		{
+			settingsObj.GetType().GetField(fieldInfo.Name).SetValue(settingsObj, float.Parse(test));
+		});
+
+		newGO.gameObject.SetActive(true);
+	}
+
+
+	private void CreateIntField(Transform content, FieldInfo fieldInfo)
+	{
+		GameObject newGO = GameObject.Instantiate(floatInputPrefab, content);
+		SetLabelTextValue(newGO, fieldInfo.Name);
+
+		InputField inputField = newGO.GetComponentInChildren<InputField>();
+		inputField.ActivateInputField();
+		inputField.characterValidation = InputField.CharacterValidation.Integer;
+		inputField.text = fieldInfo.GetValue(settingsObj).ToString();
+
+		inputField.onEndEdit.AddListener((string test) =>
+		{
+			settingsObj.GetType().GetField(fieldInfo.Name).SetValue(settingsObj, int.Parse(test));
+		});
+
+		newGO.gameObject.SetActive(true);
+	}
+
+
+	private void CreateStringField(Transform content, FieldInfo fieldInfo)
+	{
+		GameObject newGO = GameObject.Instantiate(floatInputPrefab, content);
+		SetLabelTextValue(newGO, fieldInfo.Name);
+
+		InputField inputField = newGO.GetComponentInChildren<InputField>();
+		inputField.ActivateInputField();
+		//inputField.characterValidation = InputField.CharacterValidation.Alphanumeric;
+		inputField.text = fieldInfo.GetValue(settingsObj).ToString();
+
+		inputField.onEndEdit.AddListener((string test) =>
+		{
+			settingsObj.GetType().GetField(fieldInfo.Name).SetValue(settingsObj, test);
+		});
+
+		newGO.gameObject.SetActive(true);
+	}
+
+
+	private static void SetLabelTextValue(GameObject newGO, string fieldName)
+	{
+		Text[] textFields = newGO.GetComponentsInChildren<Text>();
+
+		foreach (Text textField in textFields)
+		{
+			if (textField.gameObject.name == "Label") textField.text = fieldName;
+		}
+	}
+
+
+	/// <summary>
+	/// Helper function to call Clearcontent() by targetting the child rect transform called "content" and rebuilding tthe UI hierarchy beneath it
+	/// </summary>
 	[ContextMenu("Clear Content")]
 	public void ClearContent()
 	{
@@ -100,6 +153,10 @@ public class SetttingsMenuDisplay : MonoBehaviour
 	}
 
 
+	/// <summary>
+	/// Rebuilds the UI hierarchy beneath the given child transform
+	/// </summary>
+	/// <param name="content"></param>
 	private void ClearContent(Transform content)
 	{
 		for (int i = content.childCount; i > 0; i--)
